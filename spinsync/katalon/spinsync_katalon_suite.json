@@ -1,0 +1,107 @@
+{
+  "id": "spinsync-v2-suite",
+  "version": "3.0",
+  "name": "SpinSync v2.0 Automation Test Suite",
+  "url": "http://localhost:5173",
+  "tests": [
+    {
+      "id": "tc-01",
+      "name": "TC01 - Student Login & Dashboard",
+      "commands": [
+        { "command": "open", "target": "http://localhost:5173/", "value": "" },
+        { "command": "assertText", "target": "//h1[contains(.,'SpinSync Hub')]", "value": "SpinSync Hub" },
+        { "command": "click", "target": "//button[contains(.,'Alex Johnson')]", "value": "" },
+        { "command": "waitForElementPresent", "target": "//h1[contains(.,'Student Laundry Portal')]", "value": "5000" },
+        { "command": "assertText", "target": "//span[contains(.,'Room 204')]", "value": "Room 204" },
+        { "command": "assertText", "target": "//span[contains(@class,'font-mono') and contains(.,'₹150.00')]", "value": "₹150.00" }
+      ]
+    },
+    {
+      "id": "tc-02",
+      "name": "TC02 - Wash Customization & Dynamic Pricing (₹55.00)",
+      "commands": [
+        { "command": "open", "target": "http://localhost:5173/", "value": "" },
+        { "command": "click", "target": "//button[contains(.,'Alex Johnson')]", "value": "" },
+        { "command": "click", "target": "(//button[contains(.,'Book Slot')])[1]", "value": "" },
+        { "command": "waitForElementPresent", "target": "//h3[contains(.,'Customize Wash & Ironing')]", "value": "5000" },
+        { "command": "click", "target": "//label[contains(.,'Hot Water Wash')]/input", "value": "" },
+        { "command": "click", "target": "//label[contains(.,'Add Professional Steam Ironing')]/input", "value": "" },
+        { "command": "assertText", "target": "//span[contains(@class,'text-cyan-700') and contains(.,'₹55.00')]", "value": "₹55.00" }
+      ]
+    },
+    {
+      "id": "tc-03",
+      "name": "TC03 - Slot Booking Request (Zero Premature Debit)",
+      "commands": [
+        { "command": "open", "target": "http://localhost:5173/", "value": "" },
+        { "command": "click", "target": "//button[contains(.,'Alex Johnson')]", "value": "" },
+        { "command": "click", "target": "(//button[contains(.,'Book Slot')])[1]", "value": "" },
+        { "command": "click", "target": "//button[contains(.,'Confirm & Book Slot')]", "value": "" },
+        { "command": "waitForElementPresent", "target": "//span[contains(.,'Booked and Waiting for Approval')]", "value": "5000" },
+        { "command": "assertText", "target": "//button[@title='Top-up Laundry Wallet']//span[contains(.,'₹150.00')]", "value": "₹150.00" }
+      ]
+    },
+    {
+      "id": "tc-04",
+      "name": "TC04 - Ongoing Wash Double Booking Block",
+      "commands": [
+        { "command": "open", "target": "http://localhost:5173/", "value": "" },
+        { "command": "click", "target": "//button[contains(.,'Sarah Miller')]", "value": "" },
+        { "command": "click", "target": "(//button[contains(.,'Book Slot')])[1]", "value": "" },
+        { "command": "waitForElementPresent", "target": "//h3[contains(.,'Booking Blocked - Ongoing Wash in Progress')]", "value": "5000" },
+        { "command": "click", "target": "//button[contains(.,'Understood')]", "value": "" }
+      ]
+    },
+    {
+      "id": "tc-05",
+      "name": "TC05 - Student Wallet 2-Step OTP Top-up",
+      "commands": [
+        { "command": "open", "target": "http://localhost:5173/", "value": "" },
+        { "command": "click", "target": "//button[contains(.,'Alex Johnson')]", "value": "" },
+        { "command": "click", "target": "//button[@title='Top-up Laundry Wallet']", "value": "" },
+        { "command": "click", "target": "//button[contains(.,'+₹100')]", "value": "" },
+        { "command": "click", "target": "//button[contains(.,'Proceed & Send OTP')]", "value": "" },
+        { "command": "waitForElementPresent", "target": "//input[@placeholder='••••']", "value": "5000" },
+        { "command": "storeText", "target": "//p[contains(.,'Demo Simulated SMS Alert')]/span", "value": "otp" },
+        { "command": "type", "target": "//input[@placeholder='••••']", "value": "${otp}" },
+        { "command": "click", "target": "//button[contains(.,'Verify OTP & Recharge')]", "value": "" },
+        { "command": "waitForElementPresent", "target": "//span[contains(.,'₹250.00')]", "value": "5000" }
+      ]
+    },
+    {
+      "id": "tc-06",
+      "name": "TC06 - Admin Machine Fleet Management",
+      "commands": [
+        { "command": "open", "target": "http://localhost:5173/", "value": "" },
+        { "command": "click", "target": "//button[contains(.,'Facility Admin (Manager)')]", "value": "" },
+        { "command": "click", "target": "//button[contains(.,'Add Machine')]", "value": "" },
+        { "command": "type", "target": "//input[@placeholder='e.g. Dual Combo Unit D-106']", "value": "Dual Combo Unit D-106" },
+        { "command": "click", "target": "//button[contains(.,'Create Machine')]", "value": "" },
+        { "command": "waitForElementPresent", "target": "//h3[contains(.,'Dual Combo Unit D-106')]", "value": "5000" }
+      ]
+    },
+    {
+      "id": "tc-07",
+      "name": "TC07 - Admin Machine Maintenance Lockout Toggle",
+      "commands": [
+        { "command": "open", "target": "http://localhost:5173/", "value": "" },
+        { "command": "click", "target": "//button[contains(.,'Facility Admin (Manager)')]", "value": "" },
+        { "command": "click", "target": "(//button[contains(.,'Set Under Maintenance')])[1]", "value": "" },
+        { "command": "assertText", "target": "//p[contains(.,'This unit is currently under maintenance')]", "value": "This unit is currently under maintenance. Slot bookings are temporarily locked." },
+        { "command": "click", "target": "(//button[contains(.,'Set Available')])[1]", "value": "" }
+      ]
+    },
+    {
+      "id": "tc-08",
+      "name": "TC08 - Admin Approval & Wash Cycle Completion",
+      "commands": [
+        { "command": "open", "target": "http://localhost:5173/", "value": "" },
+        { "command": "click", "target": "//button[contains(.,'Facility Admin (Manager)')]", "value": "" },
+        { "command": "click", "target": "(//button[contains(.,'Approve')])[1]", "value": "" },
+        { "command": "waitForElementPresent", "target": "//span[contains(.,'Approved')]", "value": "5000" },
+        { "command": "click", "target": "(//button[contains(.,'Mark Finished')])[1]", "value": "" },
+        { "command": "waitForElementPresent", "target": "//span[contains(.,'Finished')]", "value": "5000" }
+      ]
+    }
+  ]
+}

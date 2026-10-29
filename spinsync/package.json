@@ -1,0 +1,13 @@
+{
+  "name": "spinsync-root",
+  "private": true,
+  "scripts": {
+    "dev": "npm --prefix spinsync run dev",
+    "build": "npm --prefix spinsync run build",
+    "preview": "npm --prefix spinsync run preview",
+    "test": "npm --prefix spinsync test --",
+    "test:e2e": "npm --prefix spinsync run test:e2e",
+    "test:selenium": "python run_selenium_tests.py",
+    "test:selenium:headed": "python run_selenium_tests.py --headed"
+  }
+}
